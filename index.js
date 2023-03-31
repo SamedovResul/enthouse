@@ -17,7 +17,7 @@ app.use(express.urlencoded({limit: "30mb", extended: true}));
 app.use('/',temprature)
 app.use('/sign',user)
 
-app.get((req,res) =>{
+app.get( '/test', (req,res) =>{
   res.send("hello world")
 })
 

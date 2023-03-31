@@ -6,20 +6,11 @@ import Joi from 'joi';
 
 export const temperatureGet = async (req, res) => {
   try {
-    const generalData = await GeneralDataSchema.find();
-    const sensorTwo = await SensorTwoSchema.find();
-    const sensorThree = await SensorThreeSchema.find();
-    const detailS = await DetailSchema.find();
-    
-    if (!generalData || !sensorTwo || !sensorThree || !detailS) {
-      return res.status(404).json({ message: 'Data not found' });
-    }
-
+    let water = await WaterSchema.findOne();
+    let engine = await EngineSchema.findOne();
     res.status(200).json({
-      generalData,
-      sensorTwo,
-      sensorThree,
-      detailS,
+      water,
+      engine
     });
   } catch (error) {
     console.error(error);
