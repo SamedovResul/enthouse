@@ -2,17 +2,7 @@ import mongoose from "mongoose";
 
 const engine = mongoose.Schema({
   // _id:String,
-  status:{
-    type: Number,
-    required: true,
-    min: 0,
-    max: 1,
-    validate: {
-      validator: Number.isInteger,
-      message: '{VALUE} is not an integer value',
-    },
-  },
-  problem:{
+  Motor_OK:{
     type: Number,
     required: true,
     min: 0,

@@ -20,35 +20,63 @@ export const temperatureGet = async (req, res) => {
   }
 };
 
+export const temperatureForArduino = async (req, res) => {
+  try {
+    let engine = await EngineSchema.findOne();
+    await EngineSchema.findByIdAndUpdate(
+      engine._id,
+      { 
+        Motor_OK:0
+      },
+      { new: true }
+    );
+    
+    // await EngineSchema.findByIdAndUpdate(
+    //   engine._id,
+    //   { 
+    //     Motor_OK
+    //   },
+    //   { new: true }
+    // );
+    res.status(200).json({
+      engine
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: 'Internal server error',
+    });
+  }
+};
+
 
 export const temperaturePost = async (req, res) => {
   try {
-    const { status, problem, level } = req.body;
+    const { Motor_OK, Water_Level } = req.body;
+    console.log(req.body)
     let water = await WaterSchema.findOne();
     let engine = await EngineSchema.findOne();
     if (!water) {
       water = await new WaterSchema({
-        level
+        Water_Level
       }).save();
     } else {
       water = await WaterSchema.findByIdAndUpdate(
         water._id,
-        { level },
+        { Water_Level },
         { new: true }
       );
     }
 
     if (!engine) {
       engine = await new EngineSchema({
-        status,
-        problem
+        Motor_OK
       }).save();
     } else {
       engine = await EngineSchema.findByIdAndUpdate(
         engine._id,
         { 
-          status,
-          problem 
+          Motor_OK
         },
         { new: true }
       );
