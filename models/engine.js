@@ -12,6 +12,14 @@ const engine = mongoose.Schema({
       message: '{VALUE} is not an integer value',
     },
   },
+  time:{
+    type: Number,
+    required: true,
+    validate: {
+      validator: Number.isInteger,
+      message: '{VALUE} is not an integer value',
+    },
+  },
 })
 
 const engineSchema = mongoose.model("engineSchema", engine)

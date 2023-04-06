@@ -52,31 +52,33 @@ export const temperatureForArduino = async (req, res) => {
 
 export const temperaturePost = async (req, res) => {
   try {
-    const { Motor_OK, Water_Level } = req.body;
+    const { Motor_OK, time } = req.body;
     console.log(req.body)
     let water = await WaterSchema.findOne();
     let engine = await EngineSchema.findOne();
-    if (!water) {
-      water = await new WaterSchema({
-        Water_Level
-      }).save();
-    } else {
-      water = await WaterSchema.findByIdAndUpdate(
-        water._id,
-        { Water_Level },
-        { new: true }
-      );
-    }
+    // if (!water) {
+    //   water = await new WaterSchema({
+    //     Water_Level
+    //   }).save();
+    // } else {
+    //   water = await WaterSchema.findByIdAndUpdate(
+    //     water._id,
+    //     { Water_Level },
+    //     { new: true }
+    //   );
+    // }
 
     if (!engine) {
       engine = await new EngineSchema({
-        Motor_OK
+        Motor_OK,
+        time
       }).save();
     } else {
       engine = await EngineSchema.findByIdAndUpdate(
         engine._id,
         { 
-          Motor_OK
+          Motor_OK,
+          time
         },
         { new: true }
       );
