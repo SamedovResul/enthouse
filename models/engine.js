@@ -20,6 +20,10 @@ const engine = mongoose.Schema({
       message: '{VALUE} is not an integer value',
     },
   },
+  createdAt: {
+    type: Date,
+    default: new Date(),
+  },
 })
 
 const engineSchema = mongoose.model("engineSchema", engine)

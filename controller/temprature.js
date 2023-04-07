@@ -8,10 +8,33 @@ export const temperatureGet = async (req, res) => {
   try {
     let water = await WaterSchema.findOne();
     let engine = await EngineSchema.findOne();
+    
+
+    const rightNow = new Date();
+    const timeDifferenceInMillis = rightNow - engine.createdAt;
+    const timeDifferenceInSeconds = timeDifferenceInMillis / 1000;
+    const minutes = Math.floor(timeDifferenceInSeconds / 60);
+    const seconds = Math.floor(timeDifferenceInSeconds % 60);
+
+    console.log(`${minutes} minute(s) and ${seconds} second(s) have`);
+
+    if(minutes <= engine.time - 1){
+      engine = {
+        Motor_OK:1,
+        time:engine.createdAt,
+      }
+    }else{
+      engine = {
+        Motor_OK:0,
+        time:0,
+      }
+    }
+
     res.status(200).json({
       water,
       engine
     });
+    
   } catch (error) {
     console.error(error);
     res.status(500).json({
@@ -20,8 +43,27 @@ export const temperatureGet = async (req, res) => {
   }
 };
 
+// {
+//   "Motor_OK":1,
+//   "time":5
+// }
+
 export const temperatureForArduino = async (req, res) => {
   try {
+    const { Su_Level } = req.body
+    console.log(Su_Level)
+    let water = await WaterSchema.findOne();
+    if (!water) {
+      water = await new WaterSchema({
+        Water_Level:Su_Level
+      }).save();
+    } else {
+      water = await WaterSchema.findByIdAndUpdate(
+        water._id,
+        { Water_Level:Su_Level },
+        { new: true }
+      );
+    }
     let engine = await EngineSchema.findOne();
     await EngineSchema.findByIdAndUpdate(
       engine._id,
@@ -30,16 +72,8 @@ export const temperatureForArduino = async (req, res) => {
       },
       { new: true }
     );
-    
-    // await EngineSchema.findByIdAndUpdate(
-    //   engine._id,
-    //   { 
-    //     Motor_OK
-    //   },
-    //   { new: true }
-    // );
     res.status(200).json({
-      engine
+      engine,
     });
   } catch (error) {
     console.error(error);
@@ -53,20 +87,9 @@ export const temperatureForArduino = async (req, res) => {
 export const temperaturePost = async (req, res) => {
   try {
     const { Motor_OK, time } = req.body;
-    console.log(req.body)
-    let water = await WaterSchema.findOne();
+    
     let engine = await EngineSchema.findOne();
-    // if (!water) {
-    //   water = await new WaterSchema({
-    //     Water_Level
-    //   }).save();
-    // } else {
-    //   water = await WaterSchema.findByIdAndUpdate(
-    //     water._id,
-    //     { Water_Level },
-    //     { new: true }
-    //   );
-    // }
+    
 
     if (!engine) {
       engine = await new EngineSchema({
@@ -78,7 +101,8 @@ export const temperaturePost = async (req, res) => {
         engine._id,
         { 
           Motor_OK,
-          time
+          time,
+          createdAt:new Date()
         },
         { new: true }
       );
@@ -86,7 +110,6 @@ export const temperaturePost = async (req, res) => {
 
     return res.status(201).json({
       engine,
-      water
     });
   } catch (error) {
     console.error(error);
