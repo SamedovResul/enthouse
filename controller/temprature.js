@@ -9,19 +9,20 @@ export const temperatureGet = async (req, res) => {
     let water = await WaterSchema.findOne();
     let engine = await EngineSchema.findOne();
     
-
+    console.log(engine)
     const rightNow = new Date();
     const timeDifferenceInMillis = rightNow - engine.createdAt;
     const timeDifferenceInSeconds = timeDifferenceInMillis / 1000;
     const minutes = Math.floor(timeDifferenceInSeconds / 60);
     const seconds = Math.floor(timeDifferenceInSeconds % 60);
 
-    console.log(`${minutes} minute(s) and ${seconds} second(s) have`);
+    // console.log(`${minutes} minute(s) and ${seconds} second(s) have`);
 
     if(minutes <= engine.time - 1){
       engine = {
         Motor_OK:1,
         time:engine.createdAt,
+        timer:engine.time
       }
     }else{
       engine = {
