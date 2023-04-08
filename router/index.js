@@ -5,6 +5,6 @@ const router = express.Router()
 
 router.post('/post', temperaturePost);
 router.get('/', temperatureGet);
-router.get('/engine', temperatureForArduino);
+router.post('/engine', temperatureForArduino);
 
 export default router
