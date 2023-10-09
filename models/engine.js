@@ -4,7 +4,6 @@ const engine = mongoose.Schema({
   // _id:String,
   Motor_OK:{
     type: Number,
-    required: true,
     min: 0,
     max: 1,
     validate: {
@@ -14,7 +13,6 @@ const engine = mongoose.Schema({
   },
   Motor_ON:{
     type: Number,
-    required: true,
     min: 0,
     max: 1,
     validate: {
@@ -24,7 +22,6 @@ const engine = mongoose.Schema({
   },
   time:{
     type: Number,
-    required: true,
     validate: {
       validator: Number.isInteger,
       message: '{VALUE} is not an integer value',
