@@ -105,7 +105,7 @@ export const temperatureForArduino = async (req, res) => {
 export const temperaturePost = async (req, res) => {
   try {
     const { Motor_OK, time } = req.body;
-    
+    console.log(Motor_OK, time)
     let engine = await EngineSchema.findOne();
     
 
@@ -125,7 +125,7 @@ export const temperaturePost = async (req, res) => {
         { new: true }
       );
     }
-
+    console.log(engine)
     return res.status(201).json({
       engine,
     });
