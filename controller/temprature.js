@@ -10,21 +10,6 @@ export const temperatureGet = async (req, res) => {
     let engine = await EngineSchema.findOne();
     
 
-    // console.log(`${minutes} minute(s) and ${seconds} second(s) have`);
-
-    // if(minutes <= engine.time - 1){
-    //   engine = {
-    //     Motor_OK:1,
-    //     time:engine.createdAt,
-    //     timer:engine.time
-    //   }
-    // }else{
-    //   engine = {
-    //     Motor_OK:0,
-    //     time:0,
-    //   }
-    // }
-
     res.status(200).json({
       water,
       engine
