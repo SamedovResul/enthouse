@@ -31,7 +31,7 @@ export const temperatureGet = async (req, res) => {
 export const temperatureForArduino = async (req, res) => {
   try {
     const {Motor_ON,Water_Level} = req.body
-    // console.log(Motor_OK,Water_Level)
+    console.log(Motor_ON,Water_Level)
     let engine = await EngineSchema.findOne();
     let water = await WaterSchema.findOne();
     
